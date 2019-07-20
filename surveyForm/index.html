@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./public/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1 id="title">Survey Form</h1>
+
+        <p id="description">Lets Connect and work together <br>
+            share your ideas and projects to work together.
+        </p>
+
+        <form id="survey-form" action="">
+            <section id="details">
+                <!-- name imput -->
+                <label for="name" id="name-label">Name</label>
+                <input placeholder="Enter Your Name" type="text" name="name" id="name" required>
+                <!-- email input -->
+                <label for="email" id="email-label">Email</label>
+                <input placeholder="Enter Your Email" type="email" name="email" id="email" required>
+                <!-- number input -->
+                <label for="number" id="number-label">Age</label>
+                <input placeholder="Enter Your Age" type="number" name="number" id="number" min="13" max="21">
+            </section>
+
+
+
+            <section id="workType">
+                <!-- select input -->
+
+                <label for="dropdown">Work Time</label>
+
+                <select name="workType" id="dropdown">
+                    <option value="Part Time"></option>
+                    <option value="Full Time"></option>
+                </select>
+
+            </section>
+
+            <!-- radio input -->
+            <section id="projectType">
+
+                <label for="dropdown">Type Of Project</label>
+                <label>
+                    <label>Open-source
+                        <input name="radio-buttons" value="1" type="radio">
+                    </label>
+                </label>
+                <label>
+                    <label>Closed-source
+                        <input name="radio-buttons" value="1" type="radio">
+                    </label>
+                </label>
+            </section>
+            <section id="experience">
+                <label for="checks">Experienced In : </label>
+                <label>html
+                    <input value="html" type="checkbox" name="html">
+                </label>
+                <label>css
+                    <input value="css" type="checkbox" name="css">
+                </label>
+                <label>js
+                    <input value="js" type="checkbox" name="js">
+                </label>
+                <label>
+                    node
+                    <input value="node" type="checkbox" name="node">
+                </label>
+                <label>express
+                    <input value="express" type="checkbox" name="express">
+                </label>
+                <label>python
+                    <input value="python" type="checkbox" name="python">
+                </label>
+            </section>
+
+            <section id="message">
+                <label for="msg">
+                    Message
+                </label>
+                <textarea name="msg" id="msg" cols="30" rows="10"></textarea>
+            </section>
+
+            <button class="button" type="submit" id="submit">Submit</button>
+        </form>
+
+    </div>
+</body>
+
+</html>

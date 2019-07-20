@@ -1,0 +1,33 @@
+@import "./input";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+
+
+}
+
+body {
+  background-color: #9c27b0
+}
+
+.container {
+  background-color: rgb(245, 245, 245);
+  padding: 20px 10px;
+  margin: 40px 10px;
+  border-radius: 16px;
+  text-align: center;
+
+  form {
+
+    section {
+
+      margin: 30px auto;
+
+    }
+  }
+}
+
+#workType {}
