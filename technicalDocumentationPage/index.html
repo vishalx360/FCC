@@ -5,12 +5,365 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./public/style.css">
     <title>Document</title>
 </head>
 
 <body>
+    <nav id="navbar">
+        <header>Service Worker API</header>
+        <div id="navbarLinksDiv">
+            <ul>
+                <li><a class="nav-link" href="#Service_worker_concepts_and_usage">Service worker concepts and usage</a>
+                </li>
+                <li><a class="nav-link" href="#Cache">Cache</a></li>
+                <li><a class="nav-link" href="#ServiceWorker">ServiceWorker</a></li>
+                <li><a class="nav-link" href="#FetchEvent">FetchEvent</a></li>
+                <li><a class="nav-link" href="#InstallEvent">InstallEvent</a></li>
+                <li><a class="nav-link" href="#Reference">Reference</a></li>
 
+            </ul>
+
+        </div>
+
+    </nav>
+    <main id="main-doc">
+
+        <div id="intro">
+            <p>Service workers essentially act as proxy servers that sit between web applications, the browser,
+                and the network (when available). They are intended, among other things, to enable the creation of
+                effective
+                offline experiences, intercept network requests and take appropriate action based on whether the network
+                is
+                available, and update assets residing on the server. They will also allow access to push notifications
+                and
+                background sync APIs.
+            </p>
+        </div>
+
+
+
+
+        <!-- Service worker concepts and usage -->
+        <section id="Service_worker_concepts_and_usage" class="main-section">
+            <header>
+                Service worker concepts and usage
+            </header>
+
+            <p>
+                A service worker is an event-driven worker registered against an origin and a path. It takes the form of
+                a JavaScript file that can control the web-page/site that it is associated with, intercepting and
+                modifying navigation and resource requests, and caching resources in a very granular fashion to give you
+                complete control over how your app behaves in certain situations (the most obvious one being when the
+                network is not available).
+            </p>
+            <p>
+                A service worker is run in a worker context: it therefore has no DOM access, and runs on a different
+                thread to the main JavaScript that powers your app, so it is not blocking. It is designed to be fully
+                async; as a consequence, APIs such as synchronous XHR and localStorage can't be used inside a service
+                worker.
+            </p>
+            <p>
+                Service workers only run over HTTPS, for security reasons. Having modified network requests, wide open
+                to man in the middle attacks would be really bad. In Firefox, Service Worker APIs are also hidden and
+                cannot be used when the user is in private browsing mode.
+            </p>
+            <h4>Registration</h4>
+            <pre id="codeBlock">
+<code>
+ServiceWorkerContainer.register(scriptURL, options)
+.then(function(ServiceWorkerRegistration) { ... });
+</code></pre>
+            <li>scope.</li>
+            <li>scriptURL.</li>
+
+            <p>A service worker is first registered using the ServiceWorkerContainer.register() method. If successful,
+                your service worker will be downloaded to the client and attempt installation/activation (see below) for
+                URLs accessed by the user inside the whole origin, or inside a subset specified by you.</p>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- cache -->
+        <section id="Cache" class="main-section">
+            <header>
+                Cache
+            </header>
+
+            <p>The Cache interface provides a storage mechanism for Request / Response object pairs that are cached, for
+                example as part of the ServiceWorker life cycle. Note that the Cache interface is exposed to windowed
+                scopes as well as workers. You don't have to use it in conjunction with service workers, even though it
+                is defined in the service worker spec.
+            </p>
+
+            <h4>Methods</h4>
+            <li>
+                Cache.match(request, options)
+                <p>
+                    Returns a Promise that resolves to the response associated with the first matching request in the
+                    Cache
+                    object.
+                </p>
+                <pre id="codeBlock">
+<code>
+cache.match(request, {options}).then(function(response) {
+// Do something with the response
+});
+
+</code></pre>
+            </li>
+            <li>
+                Cache.add(request)
+                <p>
+                    Takes a URL, retrieves it and adds the resulting response object to the given cache. This is
+                    functionally equivalent to calling fetch(), then using put() to add the results to the cache.
+
+                </p>
+                <p>
+                    The add() method of the Cache interface takes a URL, retrieves it, and adds the resulting response
+                    object to the given cache. The add() method is functionally equivalent to the following:
+
+
+                </p>
+                <pre id="codeBlock">
+<code>
+fetch(url).then(function(response) {
+if (!response.ok) {
+throw new TypeError('bad response status');
+}
+return cache.put(url, response);
+})
+
+</code></pre>
+
+                <div id="warningNote">
+                    <h3 id="warningTitle"> Note: </h3>
+                    <p>
+                        <code>add()</code> will overwrite any key/value pair previously stored in the cache that matches
+                        the request.
+                    </p>
+
+
+                </div>
+            </li>
+        </section>
+
+        <!-- ServiceWorker
+-->
+        <section id="ServiceWorker" class="main-section">
+            <header>
+                ServiceWorker
+
+            </header>
+
+            <p>The ServiceWorker interface of the ServiceWorker API provides a reference to a service worker. Multiple
+                browsing contexts (e.g. pages, workers, etc.) can be associated with the same service worker, each
+                through a unique ServiceWorker object.
+            </p>
+            <p>
+                A ServiceWorker object is available in the ServiceWorkerRegistration.active property, and the
+                ServiceWorkerContainer.controller property — this is a service worker that activated and controlling the
+                page (the service worker has been successfully registered, and the controlled page has been reloaded.)
+            </p>
+
+            <h4>Properties</h4>
+            <li>
+                ServiceWorker.scriptURL
+
+                <p>
+                    Returns the ServiceWorker serialized script URL defined as part of ServiceWorkerRegistration. Must
+                    be on the same origin as the document that registers the ServiceWorker.
+                </p>
+                <pre id="codeBlock">
+<code>
+someURL = ServiceWorker.scriptURL 
+
+</code></pre>
+                <p>A USVString (see the WebIDL definition of USVString.)</p>
+            </li>
+            <!-- new method/property -->
+            <li>
+                ServiceWorker.state
+
+                <p>
+                    The state read-only property of the ServiceWorker interface returns a string representing the
+                    current state of the service worker. It can be one of the following values: installing, installed,
+                    activating, activated, or redundant.
+
+                </p>
+                <p>
+                    This code snippet is from the service worker registration-events sample (live demo). The code
+                    listens for any change in the ServiceWorker.state and returns its value.
+
+
+                </p>
+                <pre id="codeBlock">
+<code>
+var serviceWorker;
+if (registration.installing) {
+serviceWorker = registration.installing;
+document.querySelector("#kind").textContent = "installing";
+} else if (registration.waiting) {
+serviceWorker = registration.waiting;
+document.querySelector("#kind").textContent = "waiting";
+} else if (registration.active) {
+serviceWorker = registration.active;
+document.querySelector("#kind").textContent = "active";
+}
+
+if (serviceWorker) {
+logState(serviceWorker.state);
+serviceWorker.addEventListener("statechange", function(e) {
+logState(e.target.state);
+});
+}
+
+</code></pre>
+
+
+            </li>
+        </section>
+
+
+
+
+        <section id="FetchEvent" class="main-section">
+            <header>
+                FetchEvent
+
+            </header>
+
+            <p>
+                This is the event type for fetch events dispatched on the service worker global scope. It contains
+                information about the fetch, including the request and how the receiver will treat the response. It
+                provides the event.respondWith() method, which allows us to provide a response to this fetch.
+            </p>
+
+
+            <h4>Properties</h4>
+            <li>
+                FetchEvent.request
+
+
+                <p>
+                    The request read-only property of the FetchEvent interface returns the Request that triggered the
+                    event handler.
+
+                    This property is non-nullable (since version 46, in the case of Firefox.) If a request is not
+                    provided by some other means, the constructor init object must contain a request (see
+                    FetchEvent.FetchEvent().)
+                </p>
+                <pre id="codeBlock">
+<code>
+var recentRequest = FetchEvent.request;
+
+</code></pre>
+                <p>Value : A Request object.</p>
+            </li>
+            <!-- new method/property -->
+            <li>
+                FetchEvent.clientId
+
+                <p>
+                    The clientId read-only property of the FetchEvent returns the id of the Client that the current
+                    service worker is controlling.
+
+
+
+                </p>
+                <p>
+                    The Clients.get() method could then be passed this ID to retrieve the associated client.
+
+                </p>
+                <pre id="codeBlock">
+<code>
+var myClientId = FetchEvent.clientId;
+self.addEventListener('fetch', function(event) {
+console.log(event.clientId);
+​});
+</code></pre>
+                <p>Value : A DOMString that represents the client ID.</p>
+
+
+            </li>
+
+        </section>
+
+        <!-- InstallEvent
+-->
+        <section id="InstallEvent" class="main-section">
+            <header>
+                InstallEvent
+            </header>
+
+            <p>The parameter passed into the oninstall handler, the InstallEvent interface represents an install action
+                that is dispatched on the ServiceWorkerGlobalScope of a ServiceWorker. As a child of ExtendableEvent, it
+                ensures that functional events such as FetchEvent are not dispatched during installation.</p>
+
+            <h4>Properties</h4>
+            <li>
+                InstallEvent.activeWorker
+
+                <p>
+                    The activeWorker read-only property of the InstallEvent interface returns the ServiceWorker that is
+                    currently actively controlling the page.
+
+                    This will return null if no active worker is already controlling the page.
+                </p>
+                <pre id="codeBlock">
+<code>
+self.addEventListener('install', function(event) {
+var myActiveWorker = event.activeWorker;
+});
+</code></pre>
+                <p>Value : A ServiceWorker object.</p>
+            </li>
+            <!-- new method/property -->
+            <li>
+                FetchEvent.clientId
+
+                <p>
+                    The clientId read-only property of the FetchEvent returns the id of the Client that the current
+                    service worker is controlling.
+
+
+
+                </p>
+                <p>
+                    The Clients.get() method could then be passed this ID to retrieve the associated client.
+
+                </p>
+                <pre id="codeBlock">
+<code>
+var myClientId = FetchEvent.clientId;
+self.addEventListener('fetch', function(event) {
+console.log(event.clientId);
+​});
+</code></pre>
+                <p>Value : A DOMString that represents the client ID.</p>
+
+
+            </li>
+
+        </section>
+
+        <section id="Reference" class="main-section">
+            <header>Reference</header>
+            <li>
+                All the documentation in this page is taken from <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API">MDN</a></li>
+        </section>
+    </main>
     <script src="./app.js"></script>
 </body>
 
