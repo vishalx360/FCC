@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./public/style.css">
+    <link rel="shortcut icon" href="./tdl.png" type="image/x-icon">
+    <title>TDList Landing Page</title>
+</head>
+
+<body>
+    <header id="header">
+        <nav id="nav-bar">
+            <div id="header-div">
+                <img id="header-img" src="./tdl.png" alt="" srcset="">
+
+                <h1 id="header-title">TDlist</h1>
+
+            </div>
+            <div>
+                <a href="#main" class="nav-link">Home</a>
+                <a href="#frame" class="nav-link">Video</a>
+                <a href="#featuresSection" class="nav-link">Features</a>
+            </div>
+
+        </nav>
+
+    </header>
+
+
+
+
+    <main id="main">
+
+        <section id="heroSection">
+            <div>
+                <h2>The To-Do List App You Always Wanted</h2>
+                <p>TDList is a 'To Do List" is a Progressive Web App, which uses local-storage API to store content and
+                    uses service-worker to get offline functionality.</p>
+                <form action="https://www.freecodecamp.com/email-submit" id="form">
+                    <label for="form">Submit your Email for newsletter</label>
+
+                    <input name="email" id="email" type="email" placeholder="Enter your email address" required />
+                    <input id="submit" type="submit" value="Submit" class="button button-primary" />
+                </form>
+            </div>
+            <img id="heroImg" src="./tdl.svg" alt="">
+
+        </section>
+
+        <section id="featuresSection">
+            <div>
+                <h2>Features</h2>
+                <ul>
+                    <li>
+                        <img src="./src/localStorage.svg" alt="" srcset="">
+                        <span>Uses local-storage API</span>
+                    </li>
+
+                    <li>
+                        <img src="./src/offline.svg" alt="" srcset="">
+                        <span>Works Offline</span>
+                    </li>
+
+                    <li>
+                        <img src="./src/dark.svg" alt="" srcset="">
+                        <span>Dark Theme</span>
+                    </li>
+
+                    <li>
+                        <img src="./src/open-source.svg" alt="" srcset="">
+                        <span>open-source</span>
+                    </li>
+
+
+                </ul>
+            </div>
+            <img id="heroImg" src="./darkTDL.svg" alt="">
+
+        </section>
+
+
+
+        <section id="gitSection">
+
+            <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/5XkTIMSYXOg?rel=0"
+                frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+
+            <div>
+                <p>Contribute to TDlist</p>
+                <a href="https://github.com/vishalx360/TDList">Github</a>
+            </div>
+        </section>
+    </main>
+
+
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+</body>
+
+</html>
